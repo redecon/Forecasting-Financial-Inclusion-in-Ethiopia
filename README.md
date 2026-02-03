@@ -1,106 +1,95 @@
 # Forecasting Financial Inclusion in Ethiopia
 
-## 📌 Project Overview
-This project explores and forecasts financial inclusion trends in Ethiopia using unified datasets that combine survey data, policy events, infrastructure indicators, and impact links.  
-The goal is to understand **drivers of access and usage**, identify **data gaps**, and build toward **impact modeling** that can inform policy and market strategies.
+Selam Analytics has developed Ethiopia’s first integrated financial inclusion forecasting system. This project supports a consortium of development finance institutions, mobile money operators, and the National Bank of Ethiopia by providing evidence‑based forecasts of **Access** (account ownership) and **Usage** (digital payment adoption) for 2025–2027.
+
+The system combines enriched datasets, event impact modeling, forecasting methodologies, and an interactive dashboard to answer the consortium’s key questions:
+- What drives financial inclusion in Ethiopia?
+- How do events affect inclusion outcomes?
+- What are projected rates for 2025–2027?
 
 ---
 
-## ⚙️ Setup Instructions
-1. **Clone the repository:**
+## Project Structure
 ```bash
-   git clone https://github.com/<your-username>/forecasting-financial-inclusion-ethiopia.git
-   cd forecasting-financial-inclusion-ethiopia
-```
-2. **Create and activate a virtual environment:**
-``` bash
-    python -m venv venv
-    source venv/bin/activate   # Mac/Linux
-    venv\Scripts\activate      #windows
-```
-3. **Install dependencies:**
-
-```bash
-    pip install -r requirements.txt
-```
-4. **Launch Jupyter Notebook:**
-
-```bash
-jupyter notebook
-Select the kernel Python (venv).
-```
-
-## Repository Structure
-```bash
-├── data
-│   ├── raw/                  # Original datasets (ethiopia_fi_unified_data.csv, reference_codes.csv)
-│   ├── processed/            # Enriched datasets (ethiopia_fi_unified_data_enriched.csv)
+├── data/
+│   ├── raw/                         # Original datasets
+│   ├── processed/                   # Enriched unified dataset
+│   └── enrichment_log.md            # Documentation of added records
 ├── notebooks/
-│   ├── task_1_exploration.ipynb   # Data exploration & enrichment
-│   ├── task_2_eda.ipynb           # Exploratory data analysis
-├── src/                    # Source code modules (data loaders, utils)
-├── data_enrichment_log.md  # Documentation of enrichment additions
-├── requirements.txt        # Python dependencies
-├── .gitignore              # Excludes venv, __pycache__, large files
-└── README.md               # Project documentation
+│   ├── task_2_exploratory_analysis.ipynb
+│   ├── task_3_event_impact_modeling.ipynb
+│   ├── task_4_forecasting.ipynb
+│   └── interim_report.ipynb
+├── dashboard/
+│   └── app.py                        # Streamlit dashboard application
+├── reports/
+│   ├── interim_report.md
+│   └── final_report.md
+├── requirements.txt
+└── README.md
 ```
-## Data Sources
-World Bank Global Findex – Account ownership, mobile money, disaggregated indicators
+---
 
-GSMA – Digital payment adoption, infrastructure coverage
 
-ITU – Mobile penetration statistics
+---
 
-World Bank Development Indicators – ATM density and financial infrastructure
+## Methodology Overview
 
-National Bank of Ethiopia (NBE) – Policy milestones (NFIS-II update, interoperability mandate)
+1. **Data Enrichment**  
+   Unified schema integrating observations, events, impact links, and targets. Added records for female account ownership, infrastructure indicators (mobile penetration, 4G coverage, ATM density), and policy milestones (NFIS‑II update).
 
-## Unified Schema
-The unified dataset follows a consistent schema across record types:
+2. **Exploratory Analysis**  
+   Visualized account ownership trajectory, gender gaps, mobile money adoption, digital payment usage, and infrastructure trends. Event timeline analysis contextualized changes.
 
-Field	Description
-record_type	Type of record: observation, event, impact_link, target
-pillar	Dimension: access, usage, infrastructure, policy
-indicator	Name of the indicator (e.g., Account Ownership, Mobile Money Adoption)
-indicator_code	Short code for indicator (e.g., ACC_OWN_T, MM_ACC_T)
-value_numeric	Numeric value of the indicator
-observation_date	Year or date of observation/event
-source_name	Source institution (World Bank, GSMA, ITU, NBE)
-source_url	URL to source data
-confidence	Confidence level: high, medium, low
-original_text	Original phrasing from source
-collected_by	Contributor name (e.g., Rediet)
-collection_date	Date of collection
-notes	Contextual notes explaining relevance
-Impact Links connect events to indicators via parent_id, showing expected directional effects (positive/negative) with evidence basis.
+3. **Event Impact Modeling**  
+   Built an Event‑Indicator Association Matrix linking events to indicators. Validated Telebirr’s impact against observed Findex data; benchmarked Safaricom and M‑Pesa impacts using comparable country evidence.
 
-## Completed Tasks
-**Task 1: Data Exploration & Enrichment**
+4. **Forecasting (2025–2027)**  
+   Applied trend regression augmented with event effects. Produced baseline, optimistic, base, and pessimistic scenarios with confidence intervals. Forecasted account ownership reaching 47–52% and digital payment usage 9–15% by 2027.
 
--Loaded raw datasets
+5. **Dashboard Development**  
+   Created a Streamlit dashboard with four interactive sections:
+   - **Overview:** Key metrics summary cards and growth highlights.
+   - **Trends:** Interactive time series plots with date range selector.
+   - **Forecasts:** Baseline vs event‑augmented forecasts with confidence intervals.
+   - **Projections:** Scenario selector showing progress toward Ethiopia’s 60% inclusion target.
 
--Documented schema understanding
+---
 
--Explored records by type, pillar, confidence
+## Running the Dashboard
 
--Added enriched records (observations, events, impact links)
+### Prerequisites
+- Python 3.9+
+- Virtual environment recommended
 
--Logged enrichment in data_enrichment_log.md
+### Installation
+```bash
+pip install -r requirements.txt
+```
 
-**Task 2: Exploratory Data Analysis**
+### Launch
+```bash
+streamlit run dashboard/app.py
+Open the local URL (usually http://localhost:8501) in your browser.
+```
 
--Comprehensive EDA notebook with:
+### Key Insights
+1. Account ownership growth has slowed since 2017, highlighting structural barriers.
 
--Dataset overview & temporal coverage
+2. Telebirr’s launch produced measurable gains in mobile money adoption.
 
--Access trajectory (2011–2024) & gender gap
+3. NFIS‑II interoperability mandate is expected to accelerate digital payment usage.
 
--Usage trends (mobile money, digital payments)
+4. Safaricom and M‑Pesa will expand competition and adoption, but impacts are lagged.
 
--Infrastructure analysis (mobile penetration, 4G coverage, ATM density)
+5. Ethiopia is projected to reach 50% account ownership by 2027 under the base scenario, with digital payment usage between 9–15%.
 
--Event timeline visualization
+6. Limitations and Future Work
+Sparse Findex data (five points over thirteen years) limits precision.
 
--Correlation analysis
+7. Reliance on external benchmarks for Safaricom and M‑Pesa impacts.
 
--Key insights & data limitations
+8. Gender and rural/urban disaggregation incomplete.
+
+8. Future work will expand data sources, enhance models with econometrics and machine learning, and incorporate ongoing monitoring and validation.
+
